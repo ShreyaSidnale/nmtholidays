@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -10,6 +11,8 @@ export type HeroSlide = { image: string | null; heading?: string | null; subhead
 
 export function Hero({ slides, siteTagline }: { slides: HeroSlide[]; siteTagline?: string | null }) {
   const router = useRouter()
+  const t = useTranslations('hero')
+  const ta = useTranslations('actions')
   const [active, setActive] = useState(0)
   const [query, setQuery] = useState('')
 
@@ -23,8 +26,8 @@ export function Hero({ slides, siteTagline }: { slides: HeroSlide[]; siteTagline
   }, [valid.length])
 
   const current = valid[active]
-  const heading = current?.heading || siteTagline || 'Sirf Trip Nahi, Memories Banao'
-  const subheading = current?.subheading || 'Handcrafted tour packages across India and the world.'
+  const heading = current?.heading || siteTagline || t('defaultHeading')
+  const subheading = current?.subheading || t('defaultSubheading')
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,7 +68,7 @@ export function Hero({ slides, siteTagline }: { slides: HeroSlide[]; siteTagline
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Where do you want to go? (e.g. Kashmir, Bali)"
+              placeholder={t('searchPlaceholder')}
               className="w-full bg-transparent py-3 text-ink outline-none placeholder:text-slate-400"
             />
           </div>
@@ -73,7 +76,7 @@ export function Hero({ slides, siteTagline }: { slides: HeroSlide[]; siteTagline
             type="submit"
             className="rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-700"
           >
-            Explore
+            {ta('explore')}
           </button>
         </form>
 

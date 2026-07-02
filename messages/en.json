@@ -1,0 +1,124 @@
+{
+  "nav": {
+    "home": "Home",
+    "tours": "Tours",
+    "destinations": "Destinations",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "actions": {
+    "call": "Call",
+    "explore": "Explore",
+    "viewAll": "View all",
+    "enquireWhatsapp": "Enquire on WhatsApp",
+    "chatWhatsapp": "Chat on WhatsApp",
+    "connectExpert": "Connect with Expert",
+    "sendEnquiry": "Send Enquiry",
+    "sendMessage": "Send Message",
+    "requestCallback": "Request a Callback",
+    "startPlanning": "Start planning with us",
+    "backHome": "Back home",
+    "browseTours": "Browse tours",
+    "clearFilters": "Clear filters"
+  },
+  "hero": {
+    "searchPlaceholder": "Where do you want to go? (e.g. Kashmir, Bali)",
+    "defaultHeading": "Your Perfect Travelling Partner",
+    "defaultSubheading": "Crafting unforgettable journeys across India, Asia and the Mediterranean since 2013."
+  },
+  "stats": {
+    "years": "Years of Experience",
+    "groups": "Groups Organised",
+    "destinations": "Destinations",
+    "travellers": "Happy Travellers"
+  },
+  "home": {
+    "destinationsEyebrow": "Explore",
+    "destinationsTitle": "Top Destinations",
+    "destinationsSubtitle": "Discover the places our travellers love most.",
+    "trendingEyebrow": "Hot right now",
+    "trendingTitle": "Trending Trips",
+    "themesEyebrow": "Plan by interest",
+    "themesTitle": "Find Your Kind of Trip",
+    "whyEyebrow": "Why NMT",
+    "whyTitle": "Travel with people who care",
+    "testimonialsEyebrow": "Happy travellers",
+    "testimonialsTitle": "What Our Guests Say",
+    "ctaTitle": "Ready to plan your dream trip?",
+    "ctaText": "Chat with a travel expert now — we reply fast on WhatsApp.",
+    "blogEyebrow": "Stories",
+    "blogTitle": "From the Travel Blog",
+    "faqEyebrow": "Good to know",
+    "faqTitle": "Frequently Asked Questions",
+    "noTrending": "No trending tours yet."
+  },
+  "why": {
+    "safeTitle": "Safe & Secure",
+    "safeText": "Every tour includes comprehensive travel insurance and 24/7 emergency support.",
+    "supportTitle": "24/7 Support",
+    "supportText": "Our travel experts are always available via phone, email or WhatsApp.",
+    "groupTitle": "Group Specialists",
+    "groupText": "With 300+ groups organised, we have mastered seamless group travel.",
+    "destTitle": "50+ Destinations",
+    "destText": "From the Himalayas to Southeast Asia — India inside-out and beyond."
+  },
+  "themes": {
+    "honeymoon": "Honeymoon",
+    "family": "Family",
+    "adventure": "Adventure",
+    "beach": "Beach",
+    "pilgrimage": "Pilgrimage",
+    "group": "Group Tours"
+  },
+  "tour": {
+    "overview": "Overview",
+    "highlights": "Highlights",
+    "itinerary": "Day-wise Itinerary",
+    "included": "What's Included",
+    "notIncluded": "Not Included",
+    "faqs": "FAQs",
+    "startingFrom": "Starting from",
+    "perPerson": "/ person",
+    "orEnquire": "OR ENQUIRE BELOW",
+    "day": "Day",
+    "resultsFound": "{count} package(s) found",
+    "noResults": "No tours match your filters yet."
+  },
+  "filters": {
+    "allDestinations": "All destinations",
+    "allThemes": "All themes",
+    "anyDuration": "Any duration",
+    "anyBudget": "Any budget"
+  },
+  "forms": {
+    "name": "Your name *",
+    "phone": "Phone number *",
+    "email": "Email (optional)",
+    "message": "Tell us about your trip — dates, travellers, preferences…",
+    "sending": "Sending…",
+    "success": "Thank you! Our travel expert will reach out to you shortly.",
+    "errorRequired": "Please provide your name and phone number."
+  },
+  "contact": {
+    "eyebrow": "We'd love to help",
+    "title": "Get in Touch",
+    "subtitle": "Have a question or ready to book? Send us a message and our travel experts will respond quickly.",
+    "sendTitle": "Send us a message",
+    "reachTitle": "Reach us directly"
+  },
+  "footer": {
+    "explore": "Explore",
+    "company": "Company",
+    "getInTouch": "Get in touch",
+    "tourPackages": "Tour Packages",
+    "travelBlog": "Travel Blog",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "honeymoon": "Honeymoon Packages",
+    "groupTours": "Group Tours",
+    "adminLogin": "Admin Login",
+    "rights": "All rights reserved.",
+    "tagline": "Creating unforgettable journeys across India, Asia and the Mediterranean. Travel more, worry less — we handle every detail."
+  }
+}

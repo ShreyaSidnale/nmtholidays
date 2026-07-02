@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { ShieldCheck, Wallet, Headset, MapPinned, Sparkles, ArrowRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
+import { ShieldCheck, Users, Headset, MapPinned, Sparkles, ArrowRight } from 'lucide-react'
 import { Hero } from '@/components/Hero'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TourCard } from '@/components/TourCard'
@@ -20,20 +21,27 @@ import { mediaUrl } from '@/lib/media'
 export const dynamic = 'force-dynamic'
 
 const WHY = [
-  { icon: ShieldCheck, title: 'No Third Party', text: 'We operate every trip ourselves — no middlemen, no surprises.' },
-  { icon: Wallet, title: 'Best Price Promise', text: 'Transparent pricing with the best value for your money.' },
-  { icon: Headset, title: '24/7 Support', text: 'On-trip assistance whenever you need us.' },
-  { icon: MapPinned, title: 'Tailor-made Trips', text: 'Itineraries customised to how you love to travel.' },
-]
+  { icon: ShieldCheck, key: 'safe' },
+  { icon: Headset, key: 'support' },
+  { icon: Users, key: 'group' },
+  { icon: MapPinned, key: 'dest' },
+] as const
+
+const STATS = [
+  { value: '13+', key: 'years' },
+  { value: '300+', key: 'groups' },
+  { value: '50+', key: 'destinations' },
+  { value: '25,000+', key: 'travellers' },
+] as const
 
 const THEMES = [
-  { label: 'Honeymoon', value: 'honeymoon', emoji: '💍' },
-  { label: 'Family', value: 'family', emoji: '👨‍👩‍👧' },
-  { label: 'Adventure', value: 'adventure', emoji: '🏔️' },
-  { label: 'Beach', value: 'beach', emoji: '🏖️' },
-  { label: 'Pilgrimage', value: 'pilgrimage', emoji: '🛕' },
-  { label: 'Group Tours', value: 'group', emoji: '🚌' },
-]
+  { value: 'honeymoon', emoji: '💍' },
+  { value: 'family', emoji: '👨‍👩‍👧' },
+  { value: 'adventure', emoji: '🏔️' },
+  { value: 'beach', emoji: '🏖️' },
+  { value: 'pilgrimage', emoji: '🛕' },
+  { value: 'group', emoji: '🚌' },
+] as const
 
 export default async function HomePage() {
   const [settings, destinations, trending, testimonials, posts] = await Promise.all([
@@ -42,6 +50,14 @@ export default async function HomePage() {
     getTrendingTours(6).catch(() => []),
     getTestimonials(6).catch(() => []),
     getPosts(3).catch(() => []),
+  ])
+
+  const [t, tw, tt, ts, ta] = await Promise.all([
+    getTranslations('home'),
+    getTranslations('why'),
+    getTranslations('themes'),
+    getTranslations('stats'),
+    getTranslations('actions'),
   ])
 
   const slides = (settings?.heroSlides ?? []).map((s) => ({
@@ -57,10 +73,22 @@ export default async function HomePage() {
     <>
       <Hero slides={slides} siteTagline={settings?.tagline} />
 
+      {/* Stats strip */}
+      <section className="border-b border-slate-100 bg-white">
+        <div className="container-page grid grid-cols-2 gap-6 py-8 md:grid-cols-4">
+          {STATS.map((s) => (
+            <div key={s.key} className="text-center">
+              <div className="text-3xl font-extrabold text-brand-600 md:text-4xl">{s.value}</div>
+              <div className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500 md:text-sm">{ts(s.key)}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Explore Destinations */}
       {shownDestinations.length > 0 && (
         <section className="container-page py-16">
-          <SectionHeading eyebrow="Explore" title="Top Destinations" subtitle="Discover the places our travellers love most." />
+          <SectionHeading eyebrow={t('destinationsEyebrow')} title={t('destinationsTitle')} subtitle={t('destinationsSubtitle')} />
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
             {shownDestinations.map((d) => (
               <DestinationCard key={d.id} destination={d} />
@@ -73,20 +101,20 @@ export default async function HomePage() {
       <section className="bg-slate-50 py-16">
         <div className="container-page">
           <div className="flex items-end justify-between gap-4">
-            <SectionHeading align="left" eyebrow="Hot right now" title="Trending Trips" />
+            <SectionHeading align="left" eyebrow={t('trendingEyebrow')} title={t('trendingTitle')} />
             <LinkButton href="/tours" variant="ghost" className="hidden sm:inline-flex">
-              View all <ArrowRight size={16} />
+              {ta('viewAll')} <ArrowRight size={16} />
             </LinkButton>
           </div>
           {trending.length > 0 ? (
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {trending.map((t) => (
-                <TourCard key={t.id} tour={t} />
+              {trending.map((tour) => (
+                <TourCard key={tour.id} tour={tour} />
               ))}
             </div>
           ) : (
             <p className="mt-8 rounded-lg border border-dashed border-slate-300 p-8 text-center text-slate-500">
-              No trending tours yet. Mark tours as “Trending” in the admin to feature them here.
+              {t('noTrending')}
             </p>
           )}
         </div>
@@ -94,36 +122,36 @@ export default async function HomePage() {
 
       {/* Browse by theme */}
       <section className="container-page py-16">
-        <SectionHeading eyebrow="Plan by interest" title="Find Your Kind of Trip" />
+        <SectionHeading eyebrow={t('themesEyebrow')} title={t('themesTitle')} />
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-          {THEMES.map((t) => (
+          {THEMES.map((theme) => (
             <Link
-              key={t.value}
-              href={`/tours?theme=${t.value}`}
+              key={theme.value}
+              href={`/tours?theme=${theme.value}`}
               className="flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-slate-100 bg-white p-5 text-center shadow-sm transition-shadow hover:shadow-md"
             >
-              <span className="text-3xl">{t.emoji}</span>
-              <span className="text-sm font-semibold text-ink">{t.label}</span>
+              <span className="text-3xl">{theme.emoji}</span>
+              <span className="text-sm font-semibold text-ink">{tt(theme.value)}</span>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Why choose us */}
-      <section className="bg-brand-700 py-16 text-white">
+      <section className="bg-navy-700 py-16 text-white">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand-200">Why NMT</span>
+            <span className="text-sm font-semibold uppercase tracking-wider text-navy-200">{t('whyEyebrow')}</span>
             <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl">
-              Travel with people who care
+              {t('whyTitle')}
             </h2>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {WHY.map((w) => (
-              <div key={w.title} className="rounded-[var(--radius-card)] bg-white/10 p-6 backdrop-blur">
-                <w.icon size={28} className="text-accent-400" />
-                <h3 className="mt-3 font-semibold">{w.title}</h3>
-                <p className="mt-1 text-sm text-white/80">{w.text}</p>
+              <div key={w.key} className="rounded-[var(--radius-card)] bg-white/10 p-6 backdrop-blur">
+                <w.icon size={28} className="text-brand-400" />
+                <h3 className="mt-3 font-semibold">{tw(`${w.key}Title`)}</h3>
+                <p className="mt-1 text-sm text-white/80">{tw(`${w.key}Text`)}</p>
               </div>
             ))}
           </div>
@@ -133,10 +161,10 @@ export default async function HomePage() {
       {/* Testimonials */}
       {testimonials.length > 0 && (
         <section className="container-page py-16">
-          <SectionHeading eyebrow="Happy travellers" title="What Our Guests Say" />
+          <SectionHeading eyebrow={t('testimonialsEyebrow')} title={t('testimonialsTitle')} />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((t) => (
-              <TestimonialCard key={t.id} testimonial={t} />
+            {testimonials.map((tm) => (
+              <TestimonialCard key={tm.id} testimonial={tm} />
             ))}
           </div>
         </section>
@@ -144,22 +172,22 @@ export default async function HomePage() {
 
       {/* WhatsApp CTA */}
       <section className="container-page py-12">
-        <div className="flex flex-col items-center gap-6 rounded-[2rem] bg-gradient-to-r from-brand-600 to-brand-800 p-10 text-center text-white md:flex-row md:justify-between md:text-left">
+        <div className="flex flex-col items-center gap-6 rounded-[2rem] bg-gradient-to-r from-brand-500 to-brand-700 p-10 text-center text-white md:flex-row md:justify-between md:text-left">
           <div>
-            <Sparkles className="mb-2 text-accent-400" />
+            <Sparkles className="mb-2 text-white" />
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold md:text-3xl">
-              Ready to plan your dream trip?
+              {t('ctaTitle')}
             </h2>
-            <p className="mt-2 text-white/85">Chat with a travel expert now — we reply fast on WhatsApp.</p>
+            <p className="mt-2 text-white/90">{t('ctaText')}</p>
           </div>
-          <WhatsAppButton number={settings?.whatsappNumber} label="Connect with Expert" />
+          <WhatsAppButton number={settings?.whatsappNumber} label={ta('connectExpert')} />
         </div>
       </section>
 
       {/* Blog teaser */}
       {posts.length > 0 && (
         <section className="container-page pb-8">
-          <SectionHeading eyebrow="Stories" title="From the Travel Blog" />
+          <SectionHeading eyebrow={t('blogEyebrow')} title={t('blogTitle')} />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p) => (
               <Link key={p.id} href={`/blog/${p.slug}`} className="group">
@@ -173,7 +201,7 @@ export default async function HomePage() {
 
       {/* FAQ */}
       <section className="container-page py-16">
-        <SectionHeading eyebrow="Good to know" title="Frequently Asked Questions" />
+        <SectionHeading eyebrow={t('faqEyebrow')} title={t('faqTitle')} />
         <div className="mt-10">
           <Faq
             items={[

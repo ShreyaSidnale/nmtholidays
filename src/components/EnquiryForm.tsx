@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
+import { useTranslations } from 'next-intl'
 import { submitEnquiry } from '@/app/actions/enquiry'
 import type { EnquiryState } from '@/app/actions/types'
 import { Button } from '@/components/ui/Button'
@@ -17,13 +18,16 @@ type Props = {
   submitLabel?: string
 }
 
-export function EnquiryForm({ source = 'contact', tourId, compact = false, submitLabel = 'Send Enquiry' }: Props) {
+export function EnquiryForm({ source = 'contact', tourId, compact = false, submitLabel }: Props) {
   const [state, formAction, pending] = useActionState(submitEnquiry, initial)
+  const t = useTranslations('forms')
+  const ta = useTranslations('actions')
+  const label = submitLabel ?? ta('sendEnquiry')
 
   if (state.ok) {
     return (
       <div className="rounded-[var(--radius-card)] border border-brand-200 bg-brand-50 p-6 text-center">
-        <p className="font-semibold text-brand-700">{state.message}</p>
+        <p className="font-semibold text-brand-700">{t('success')}</p>
       </div>
     )
   }
@@ -36,16 +40,16 @@ export function EnquiryForm({ source = 'contact', tourId, compact = false, submi
       <input type="text" name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
       <div className={compact ? 'space-y-4' : 'grid gap-4 sm:grid-cols-2'}>
-        <input name="name" required placeholder="Your name *" className={inputClass} />
-        <input name="phone" required placeholder="Phone number *" className={inputClass} />
+        <input name="name" required placeholder={t('name')} className={inputClass} />
+        <input name="phone" required placeholder={t('phone')} className={inputClass} />
       </div>
-      <input name="email" type="email" placeholder="Email (optional)" className={inputClass} />
-      <textarea name="message" rows={compact ? 3 : 4} placeholder="Tell us about your trip — dates, travellers, preferences…" className={inputClass} />
+      <input name="email" type="email" placeholder={t('email')} className={inputClass} />
+      <textarea name="message" rows={compact ? 3 : 4} placeholder={t('message')} className={inputClass} />
 
       {state.message && !state.ok && <p className="text-sm text-red-600">{state.message}</p>}
 
       <Button type="submit" variant="primary" size="lg" disabled={pending} className="w-full">
-        {pending ? 'Sending…' : submitLabel}
+        {pending ? t('sending') : label}
       </Button>
     </form>
   )

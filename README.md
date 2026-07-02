@@ -16,6 +16,8 @@ and **TypeScript**.
 - 🔎 **Tour search & filters** (destination, theme, duration, budget).
 - ⭐ Testimonials, blog, destination landing pages.
 - 🚀 **SEO**: per-page metadata, `sitemap.xml`, `robots.txt`, and JSON-LD structured data.
+- 🌐 **Multi-language** (English, हिन्दी, मराठी, ಕನ್ನಡ) — cookie-based switcher; UI via
+  next-intl and CMS content via Payload localization (translate any field per-locale in admin).
 - 📊 Optional Google Analytics 4.
 
 ## Tech stack
@@ -105,4 +107,15 @@ scripts/                 # seed.ts, scrape-nmt.ts, screenshot.ts
 | `npm run build` / `start` | Production build / serve                 |
 | `npm run seed`            | Seed sample destinations/tours           |
 | `npm run scrape`          | Scrape the legacy site to JSON           |
+| `npx tsx scripts/update-brand.ts` | Apply real brand + contact details, upload logo |
+| `npx tsx scripts/translate.ts`    | Machine-translate key CMS fields (hi/mr/kn) |
 | `npm run generate:types`  | Regenerate Payload TypeScript types      |
+
+## Languages / i18n
+
+- UI strings live in `messages/{en,hi,mr,kn}.json` (next-intl, cookie-based — no URL change).
+- The header language switcher sets a `NEXT_LOCALE` cookie and re-renders.
+- CMS content is localized in Payload: open any tour/destination in `/admin` and switch
+  the locale selector at the top to translate its fields. `scripts/translate.ts` seeds the
+  most visible fields (destination names, tour titles, tagline); other fields fall back to
+  English until translated.

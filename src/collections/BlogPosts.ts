@@ -16,11 +16,11 @@ export const BlogPosts: CollectionConfig = {
     },
   },
   fields: [
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', type: 'text', required: true, localized: true },
     slugField('title'),
-    { name: 'excerpt', type: 'textarea' },
+    { name: 'excerpt', type: 'textarea', localized: true },
     { name: 'coverImage', type: 'upload', relationTo: 'media' },
-    { name: 'body', type: 'richText' },
+    { name: 'body', type: 'richText', localized: true },
     {
       name: 'publishedDate',
       type: 'date',

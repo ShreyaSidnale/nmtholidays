@@ -38,6 +38,16 @@ export default buildConfig({
   },
   collections: [Tours, Destinations, Testimonials, BlogPosts, Enquiries, Media, Users],
   globals: [SiteSettings],
+  localization: {
+    locales: [
+      { label: 'English', code: 'en' },
+      { label: 'हिन्दी (Hindi)', code: 'hi' },
+      { label: 'मराठी (Marathi)', code: 'mr' },
+      { label: 'ಕನ್ನಡ (Kannada)', code: 'kn' },
+    ],
+    defaultLocale: 'en',
+    fallback: true,
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'CHANGE_ME_IN_ENV',
   typescript: {

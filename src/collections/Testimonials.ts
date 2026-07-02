@@ -20,7 +20,7 @@ export const Testimonials: CollectionConfig = {
       max: 5,
       defaultValue: 5,
     },
-    { name: 'quote', type: 'textarea', required: true },
+    { name: 'quote', type: 'textarea', required: true, localized: true },
     { name: 'avatar', type: 'upload', relationTo: 'media' },
     {
       name: 'tour',

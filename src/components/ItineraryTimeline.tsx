@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { Utensils, BedDouble } from 'lucide-react'
 import type { Tour, Media } from '@/payload-types'
 import { mediaUrl } from '@/lib/media'
@@ -6,6 +7,7 @@ import { mediaUrl } from '@/lib/media'
 type ItineraryDay = NonNullable<Tour['itinerary']>[number]
 
 export function ItineraryTimeline({ days }: { days: ItineraryDay[] }) {
+  const t = useTranslations('tour')
   if (!days?.length) return null
   return (
     <ol className="relative space-y-8 border-l-2 border-brand-100 pl-6">
@@ -18,7 +20,7 @@ export function ItineraryTimeline({ days }: { days: ItineraryDay[] }) {
             </span>
             <div className="rounded-[var(--radius-card)] border border-slate-100 bg-white p-5 shadow-sm">
               <h3 className="font-semibold text-ink">
-                <span className="text-brand-600">Day {i + 1}:</span> {day.title}
+                <span className="text-brand-600">{t('day')} {i + 1}:</span> {day.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">{day.description}</p>
               {img && (

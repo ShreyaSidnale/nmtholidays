@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TourCard } from '@/components/TourCard'
 import { TourFilters } from '@/components/TourFilters'
@@ -39,10 +40,13 @@ export default async function ToursPage({ searchParams }: { searchParams: Search
   ])
 
   const tours = result?.docs ?? []
+  const tt = await getTranslations('tour')
+  const tn = await getTranslations('nav')
+  const ta = await getTranslations('actions')
 
   return (
     <div className="container-page py-12">
-      <SectionHeading align="left" eyebrow="Tour Packages" title={filters.q ? `Results for “${filters.q}”` : 'Find Your Perfect Trip'} />
+      <SectionHeading align="left" eyebrow={tn('tours')} title={filters.q ? `“${filters.q}”` : tn('tours')} />
 
       <div className="mt-8">
         <TourFilters destinations={destinations.map((d) => ({ slug: d.slug ?? '', name: d.name }))} />
@@ -50,7 +54,7 @@ export default async function ToursPage({ searchParams }: { searchParams: Search
 
       {tours.length > 0 ? (
         <>
-          <p className="mt-6 text-sm text-slate-500">{result?.totalDocs ?? tours.length} package(s) found</p>
+          <p className="mt-6 text-sm text-slate-500">{tt('resultsFound', { count: result?.totalDocs ?? tours.length })}</p>
           <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {tours.map((t) => (
               <TourCard key={t.id} tour={t} />
@@ -84,9 +88,9 @@ export default async function ToursPage({ searchParams }: { searchParams: Search
         </>
       ) : (
         <div className="mt-10 rounded-[var(--radius-card)] border border-dashed border-slate-300 p-12 text-center">
-          <p className="text-slate-500">No tours match your filters yet.</p>
+          <p className="text-slate-500">{tt('noResults')}</p>
           <Link href="/tours" className="mt-3 inline-block font-medium text-brand-700 hover:underline">
-            Clear filters
+            {ta('clearFilters')}
           </Link>
         </div>
       )}

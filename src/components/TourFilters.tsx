@@ -2,30 +2,20 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 
-const THEMES = [
-  ['', 'All themes'],
-  ['honeymoon', 'Honeymoon'],
-  ['family', 'Family'],
-  ['adventure', 'Adventure'],
-  ['beach', 'Beach'],
-  ['hill-station', 'Hill Station'],
-  ['pilgrimage', 'Pilgrimage'],
-  ['wildlife', 'Wildlife'],
-  ['heritage', 'Heritage'],
-  ['group', 'Group Tour'],
-  ['mice', 'MICE / Corporate'],
+const THEME_VALUES = [
+  'honeymoon', 'family', 'adventure', 'beach', 'hill-station',
+  'pilgrimage', 'wildlife', 'heritage', 'group', 'mice',
 ] as const
 
 const DURATIONS = [
-  ['', 'Any duration'],
   ['1-4', '1–4 days'],
   ['5-7', '5–7 days'],
   ['8-100', '8+ days'],
 ] as const
 
 const PRICES = [
-  ['', 'Any budget'],
   ['25000', 'Under ₹25,000'],
   ['50000', 'Under ₹50,000'],
   ['100000', 'Under ₹1,00,000'],
@@ -37,6 +27,7 @@ const selectClass =
 export function TourFilters({ destinations }: { destinations: { slug: string; name: string }[] }) {
   const router = useRouter()
   const params = useSearchParams()
+  const t = useTranslations('filters')
 
   const update = useCallback(
     (key: string, value: string) => {
@@ -52,25 +43,28 @@ export function TourFilters({ destinations }: { destinations: { slug: string; na
   return (
     <div className="grid grid-cols-2 gap-3 rounded-[var(--radius-card)] border border-slate-100 bg-white p-4 shadow-sm md:grid-cols-4">
       <select className={selectClass} value={params.get('destination') ?? ''} onChange={(e) => update('destination', e.target.value)}>
-        <option value="">All destinations</option>
+        <option value="">{t('allDestinations')}</option>
         {destinations.map((d) => (
           <option key={d.slug} value={d.slug}>{d.name}</option>
         ))}
       </select>
 
       <select className={selectClass} value={params.get('theme') ?? ''} onChange={(e) => update('theme', e.target.value)}>
-        {THEMES.map(([v, l]) => (
-          <option key={v} value={v}>{l}</option>
+        <option value="">{t('allThemes')}</option>
+        {THEME_VALUES.map((v) => (
+          <option key={v} value={v}>{v.charAt(0).toUpperCase() + v.slice(1).replace('-', ' ')}</option>
         ))}
       </select>
 
       <select className={selectClass} value={params.get('duration') ?? ''} onChange={(e) => update('duration', e.target.value)}>
+        <option value="">{t('anyDuration')}</option>
         {DURATIONS.map(([v, l]) => (
           <option key={v} value={v}>{l}</option>
         ))}
       </select>
 
       <select className={selectClass} value={params.get('maxPrice') ?? ''} onChange={(e) => update('maxPrice', e.target.value)}>
+        <option value="">{t('anyBudget')}</option>
         {PRICES.map(([v, l]) => (
           <option key={v} value={v}>{l}</option>
         ))}

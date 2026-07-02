@@ -17,6 +17,7 @@ export const Destinations: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      localized: true,
     },
     slugField('name'),
     {
@@ -37,11 +38,13 @@ export const Destinations: CollectionConfig = {
     {
       name: 'shortDescription',
       type: 'textarea',
+      localized: true,
       admin: { description: 'One or two lines shown on destination cards.' },
     },
     {
       name: 'description',
       type: 'richText',
+      localized: true,
     },
     {
       name: 'featured',

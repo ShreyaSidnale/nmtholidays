@@ -17,7 +17,7 @@ export const SiteSettings: GlobalConfig = {
           label: 'Brand',
           fields: [
             { name: 'siteName', type: 'text', defaultValue: 'NMT India Holidays' },
-            { name: 'tagline', type: 'text', defaultValue: 'Sirf Trip Nahi, Memories Banao' },
+            { name: 'tagline', type: 'text', defaultValue: 'Your Perfect Travelling Partner', localized: true },
             { name: 'logo', type: 'upload', relationTo: 'media' },
           ],
         },
@@ -40,6 +40,11 @@ export const SiteSettings: GlobalConfig = {
             },
             { name: 'email', type: 'email' },
             { name: 'address', type: 'textarea' },
+            {
+              name: 'officeHours',
+              type: 'textarea',
+              admin: { description: 'e.g. "Mon – Sat: 9:00 AM – 7:00 PM"' },
+            },
           ],
         },
         {

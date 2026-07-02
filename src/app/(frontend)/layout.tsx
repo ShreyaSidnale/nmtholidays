@@ -1,6 +1,8 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import './styles.css'
 
 import { Header } from '@/components/Header'
@@ -28,7 +30,11 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSiteSettings().catch(() => null)
+  const [settings, locale, messages] = await Promise.all([
+    getSiteSettings().catch(() => null),
+    getLocale(),
+    getMessages(),
+  ])
 
   const siteName = settings?.siteName || 'NMT India Holidays'
   const phone = settings?.phone
@@ -38,24 +44,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans antialiased">
-        <Header siteName={siteName} logoUrl={mediaUrl(settings?.logo)} phone={phone} />
-        <main className="min-h-[60vh]">{children}</main>
-        <Footer
-          siteName={siteName}
-          tagline={settings?.tagline}
-          phone={phone}
-          email={settings?.email}
-          address={settings?.address}
-          socials={{
-            facebook: settings?.facebook,
-            instagram: settings?.instagram,
-            youtube: settings?.youtube,
-          }}
-        />
-        <WhatsAppFloat href={wa} />
-        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        <NextIntlClientProvider messages={messages}>
+          <Header siteName={siteName} logoUrl={mediaUrl(settings?.logo)} phone={phone} />
+          <main className="min-h-[60vh]">{children}</main>
+          <Footer
+            siteName={siteName}
+            tagline={settings?.tagline}
+            phone={phone}
+            email={settings?.email}
+            address={settings?.address}
+            socials={{
+              facebook: settings?.facebook,
+              instagram: settings?.instagram,
+              youtube: settings?.youtube,
+            }}
+          />
+          <WhatsAppFloat href={wa} />
+          <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

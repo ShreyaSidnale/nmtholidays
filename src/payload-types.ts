@@ -96,14 +96,15 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale:
+    ('false' | 'none' | 'null') | false | null | ('en' | 'hi' | 'mr' | 'kn') | ('en' | 'hi' | 'mr' | 'kn')[];
   globals: {
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
-  locale: null;
+  locale: 'en' | 'hi' | 'mr' | 'kn';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -808,6 +809,10 @@ export interface SiteSetting {
   whatsappMessageTemplate?: string | null;
   email?: string | null;
   address?: string | null;
+  /**
+   * e.g. "Mon – Sat: 9:00 AM – 7:00 PM"
+   */
+  officeHours?: string | null;
   facebook?: string | null;
   instagram?: string | null;
   youtube?: string | null;
@@ -838,6 +843,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   whatsappMessageTemplate?: T;
   email?: T;
   address?: T;
+  officeHours?: T;
   facebook?: T;
   instagram?: T;
   youtube?: T;

@@ -27,7 +27,7 @@ export const Tours: CollectionConfig = {
         {
           label: 'Overview',
           fields: [
-            { name: 'title', type: 'text', required: true },
+            { name: 'title', type: 'text', required: true, localized: true },
             slugField('title'),
             {
               name: 'destination',
@@ -40,11 +40,13 @@ export const Tours: CollectionConfig = {
               name: 'summary',
               type: 'textarea',
               required: true,
+              localized: true,
               admin: { description: 'Short teaser shown on tour cards and search results.' },
             },
             {
               name: 'overview',
               type: 'richText',
+              localized: true,
               admin: { description: 'Full description shown on the tour detail page.' },
             },
             {

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Facebook, Instagram, Youtube, Phone, Mail, MapPin } from 'lucide-react'
 
 type Props = {
@@ -11,14 +12,19 @@ type Props = {
 }
 
 export function Footer({ siteName, tagline, phone, email, address, socials }: Props) {
+  const t = useTranslations('footer')
+  const tn = useTranslations('nav')
   return (
     <footer className="mt-20 bg-ink text-slate-300">
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-1">
           <div className="text-xl font-extrabold text-white">
-            NMT<span className="text-accent-500"> Holidays</span>
+            <span className="text-brand-500">NMT</span> India Holidays
           </div>
-          {tagline && <p className="mt-3 text-sm text-slate-400">{tagline}</p>}
+          <p className="mt-1 text-xs uppercase tracking-wide text-slate-500">Northern Mediterranean Tourism India</p>
+          <p className="mt-3 text-sm text-slate-400">
+            {tagline || 'Creating unforgettable journeys across India, Asia and the Mediterranean. Travel more, worry less — we handle every detail.'}
+          </p>
           <div className="mt-4 flex gap-3">
             {socials?.facebook && (
               <a href={socials.facebook} aria-label="Facebook" className="rounded-full bg-white/10 p-2 hover:bg-white/20">
@@ -39,27 +45,27 @@ export function Footer({ siteName, tagline, phone, email, address, socials }: Pr
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-white">Explore</h4>
+          <h4 className="mb-4 font-semibold text-white">{t('explore')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/tours" className="hover:text-white">Tour Packages</Link></li>
-            <li><Link href="/destinations" className="hover:text-white">Destinations</Link></li>
-            <li><Link href="/blog" className="hover:text-white">Travel Blog</Link></li>
-            <li><Link href="/about" className="hover:text-white">About Us</Link></li>
+            <li><Link href="/tours" className="hover:text-white">{t('tourPackages')}</Link></li>
+            <li><Link href="/destinations" className="hover:text-white">{tn('destinations')}</Link></li>
+            <li><Link href="/blog" className="hover:text-white">{t('travelBlog')}</Link></li>
+            <li><Link href="/about" className="hover:text-white">{t('aboutUs')}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-white">Company</h4>
+          <h4 className="mb-4 font-semibold text-white">{t('company')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
-            <li><Link href="/tours?theme=honeymoon" className="hover:text-white">Honeymoon Packages</Link></li>
-            <li><Link href="/tours?theme=group" className="hover:text-white">Group Tours</Link></li>
-            <li><Link href="/admin" className="hover:text-white">Admin Login</Link></li>
+            <li><Link href="/contact" className="hover:text-white">{t('contactUs')}</Link></li>
+            <li><Link href="/tours?theme=honeymoon" className="hover:text-white">{t('honeymoon')}</Link></li>
+            <li><Link href="/tours?theme=group" className="hover:text-white">{t('groupTours')}</Link></li>
+            <li><Link href="/admin" className="hover:text-white">{t('adminLogin')}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-white">Get in touch</h4>
+          <h4 className="mb-4 font-semibold text-white">{t('getInTouch')}</h4>
           <ul className="space-y-3 text-sm">
             {phone && (
               <li className="flex items-center gap-2">
@@ -82,8 +88,8 @@ export function Footer({ siteName, tagline, phone, email, address, socials }: Pr
 
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-400 sm:flex-row">
-          <p>© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
-          <p>Designed & built with Next.js + Payload CMS.</p>
+          <p>© {new Date().getFullYear()} {siteName} (Northern Mediterranean Tourism India). {t('rights')}</p>
+          <p>Your Perfect Travelling Partner</p>
         </div>
       </div>
     </footer>
