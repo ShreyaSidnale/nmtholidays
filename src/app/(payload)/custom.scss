@@ -1,0 +1,171 @@
+/* ==========================================================================
+   NMT India Holidays — Admin panel theme (VISUAL ONLY)
+   No fields, collections or behaviour are changed here — this only restyles
+   the Payload admin UI to match the NMT brand (orange + indigo).
+   Rules are intentionally unlayered so they override Payload's @layer defaults.
+   ========================================================================== */
+
+:root {
+  /* Rebrand Payload's accent ramp (default blue -> NMT orange).
+     This recolours links, focus rings, active states, toggles, etc. and,
+     because --theme-success-* maps to these, it works in light AND dark mode. */
+  --color-success-50: rgb(255, 245, 236);
+  --color-success-100: rgb(255, 232, 211);
+  --color-success-150: rgb(255, 217, 184);
+  --color-success-200: rgb(255, 205, 166);
+  --color-success-250: rgb(255, 188, 133);
+  --color-success-300: rgb(255, 171, 110);
+  --color-success-350: rgb(251, 154, 82);
+  --color-success-400: rgb(251, 140, 60);
+  --color-success-450: rgb(247, 131, 36);
+  --color-success-500: rgb(244, 121, 32);
+  --color-success-550: rgb(226, 98, 15);
+  --color-success-600: rgb(204, 86, 13);
+  --color-success-650: rgb(188, 76, 13);
+  --color-success-700: rgb(165, 67, 15);
+  --color-success-750: rgb(149, 61, 18);
+  --color-success-800: rgb(132, 55, 18);
+  --color-success-850: rgb(111, 47, 18);
+  --color-success-900: rgb(90, 40, 16);
+  --color-success-950: rgb(64, 32, 14);
+
+  --nmt-orange: #f47920;
+  --nmt-orange-600: #e2620f;
+  --nmt-indigo: #2e3192;
+  --nmt-indigo-700: #262a7a;
+}
+
+/* Soft, warm-tinted background so the workspace isn't flat white/grey. */
+html[data-theme='light'] {
+  --theme-bg: #f4f5fa;
+}
+html[data-theme='dark'] {
+  --theme-bg: #14152a;
+}
+
+/* ------------------------------------------------------------------ Dashboard */
+.modular-dashboard {
+  /* Group section titles: Catalog / Content / Leads / Admin */
+  .collections__label,
+  .collections__group > h2,
+  .collections__group > h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--nmt-indigo);
+  }
+
+  html[data-theme='dark'] & .collections__label {
+    color: #aab0f2;
+  }
+
+  /* little brand accent bar before each group title */
+  .collections__label::before,
+  .collections__group > h2::before {
+    content: '';
+    width: 6px;
+    height: 1.4em;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--nmt-orange), var(--nmt-orange-600));
+  }
+
+  .collections__card-list {
+    gap: 1rem;
+  }
+}
+
+/* --------------------------------------------------------------------- Cards */
+.card {
+  background: var(--theme-elevation-0);
+  border: 1px solid var(--theme-elevation-100);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+
+  /* colored accent stripe down the left edge */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--nmt-orange), var(--nmt-indigo));
+    opacity: 0.85;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: var(--theme-elevation-800);
+  }
+
+  &--has-onclick {
+    cursor: pointer;
+    &:hover {
+      border-color: var(--nmt-orange);
+      box-shadow: 0 10px 24px -8px rgba(244, 121, 32, 0.35);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* the "+" create-new button on each card */
+  &__actions .btn__icon {
+    color: var(--nmt-orange);
+    border-color: var(--theme-elevation-150);
+    &:hover {
+      background-color: var(--nmt-orange);
+      border-color: var(--nmt-orange);
+      color: #fff;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------- Left nav */
+.nav {
+  .nav-group__toggle {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--theme-elevation-500);
+  }
+
+  a {
+    border-radius: 8px;
+    transition: background-color 120ms ease, color 120ms ease;
+    &:hover {
+      background-color: var(--theme-elevation-50);
+      color: var(--nmt-orange-600);
+    }
+  }
+
+  /* active link accent */
+  a.active,
+  a[aria-current='page'] {
+    background-color: color-mix(in srgb, var(--nmt-orange) 12%, transparent);
+    color: var(--nmt-orange-600);
+    font-weight: 600;
+  }
+}
+
+/* --------------------------------------------------------------- Login page */
+.login {
+  background:
+    radial-gradient(1200px 500px at 100% -10%, rgba(244, 121, 32, 0.12), transparent),
+    radial-gradient(900px 500px at -10% 110%, rgba(46, 49, 146, 0.12), transparent);
+
+  &__brand,
+  &__wrap {
+    border-radius: 16px;
+  }
+}
+
+/* Rounder inputs/buttons for a friendlier feel (visual only) */
+.field-type input,
+.field-type textarea,
+.btn {
+  border-radius: 10px;
+}

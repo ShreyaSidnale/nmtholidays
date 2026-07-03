@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 
   return (
-    <html lang={locale} className={`${inter.variable} ${poppins.variable}`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <Header siteName={siteName} logoUrl={mediaUrl(settings?.logo)} phone={phone} />
