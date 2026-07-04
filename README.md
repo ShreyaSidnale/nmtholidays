@@ -65,6 +65,20 @@ npm run scrape -- --import        # also imports tours as DRAFTS + sets contact 
 
 Imported tours land as **drafts** — review, add itinerary/pricing/images, then publish in the admin.
 
+## Demo mode (no database required)
+
+For a quick prototype/demo without any database, the public site can render a
+built-in **static demo dataset** (`src/lib/demoData.ts`) — a full home page,
+destinations, and clickable tour/itinerary pages.
+
+- **Local:** run `DEMO_MODE=true npm run dev` (PowerShell: `$env:DEMO_MODE="true"; npm run dev`).
+- **On Vercel:** demo mode turns on **automatically** when no `DATABASE_URI` is set.
+  To force it explicitly, add an env var `DEMO_MODE=true` in
+  **Vercel → Settings → Environment Variables**, then redeploy.
+- To go live with real data later, connect a database (`DATABASE_URI`) and either
+  remove `DEMO_MODE` or set `DEMO_MODE=false`. Real DB content then takes over
+  automatically (demo is only a fallback).
+
 ## The database adapter switch
 
 `src/payload.config.ts` chooses the adapter from `DATABASE_URI`:
