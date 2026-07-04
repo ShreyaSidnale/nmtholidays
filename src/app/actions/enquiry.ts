@@ -3,6 +3,7 @@
 import { getPayloadClient } from '@/lib/payload'
 import { Resend } from 'resend'
 import type { EnquiryState } from './types'
+import { useDemoData } from '@/lib/queries'
 
 export async function submitEnquiry(_prev: EnquiryState, formData: FormData): Promise<EnquiryState> {
   const name = String(formData.get('name') || '').trim()
@@ -17,6 +18,12 @@ export async function submitEnquiry(_prev: EnquiryState, formData: FormData): Pr
 
   if (!name || !phone) {
     return { ok: false, message: 'Please provide your name and phone number.' }
+  }
+
+  // Demo/prototype mode: no database to store the lead — just acknowledge.
+  if (useDemoData()) {
+    console.log('[demo] enquiry received:', { name, phone, email, source, tourId })
+    return { ok: true, message: 'Thank you! Our travel expert will reach out to you shortly.' }
   }
 
   try {
