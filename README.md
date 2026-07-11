@@ -79,6 +79,30 @@ destinations, and clickable tour/itinerary pages.
   remove `DEMO_MODE` or set `DEMO_MODE=false`. Real DB content then takes over
   automatically (demo is only a fallback).
 
+## Enabling the admin panel on Vercel
+
+The admin lives at **`https://<your-domain>/admin`** (same app — no separate deploy).
+It needs a database and, for image uploads, blob storage. One-time setup:
+
+1. **Database (Neon, free):** create a Postgres project at [neon.tech](https://neon.tech)
+   and copy the connection string (`postgres://…?sslmode=require`).
+2. **Create the schema + seed content** by running locally against Neon (this uses
+   Payload's dev "push" to create all tables):
+   ```bash
+   # PowerShell
+   $env:DATABASE_URI="postgres://…?sslmode=require"; npm run seed
+   $env:DATABASE_URI="postgres://…?sslmode=require"; npx tsx scripts/update-brand.ts
+   $env:DATABASE_URI="postgres://…?sslmode=require"; npx tsx scripts/create-admin.ts   # optional login
+   ```
+3. **Vercel Blob (for media uploads):** in your Vercel project → **Storage → Create → Blob**,
+   connect it to the project. Vercel adds `BLOB_READ_WRITE_TOKEN` automatically.
+4. **Vercel env vars** (Settings → Environment Variables):
+   - `DATABASE_URI` = the Neon URL
+   - `PAYLOAD_SECRET` = a long random string
+   - `DEMO_MODE` = `false` to show real data on the public site, or `true` to keep the
+     public site on demo content while still managing real data in the admin.
+5. **Redeploy.** Visit `/admin`, log in (or create the first user), and manage content.
+
 ## The database adapter switch
 
 `src/payload.config.ts` chooses the adapter from `DATABASE_URI`:

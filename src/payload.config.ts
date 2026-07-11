@@ -1,6 +1,8 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import type { Plugin } from 'payload'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -25,6 +27,20 @@ const usePostgres = databaseUri.startsWith('postgres')
 const db = usePostgres
   ? postgresAdapter({ pool: { connectionString: databaseUri } })
   : sqliteAdapter({ client: { url: databaseUri || `file:${path.resolve(dirname, '../nmt.db')}` } })
+
+// On Vercel the filesystem is ephemeral, so uploaded media must go to blob
+// storage. Enabled only when a Vercel Blob token is present — locally, uploads
+// keep using the disk (no token needed).
+const plugins: Plugin[] = []
+if (process.env.BLOB_READ_WRITE_TOKEN) {
+  plugins.push(
+    vercelBlobStorage({
+      enabled: true,
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  )
+}
 
 export default buildConfig({
   admin: {
@@ -61,4 +77,5 @@ export default buildConfig({
   },
   db,
   sharp,
+  plugins,
 })
